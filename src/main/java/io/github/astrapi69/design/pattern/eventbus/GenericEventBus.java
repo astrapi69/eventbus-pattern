@@ -1,7 +1,7 @@
 /**
  * The MIT License
  *
- * Copyright (C) 2015 Asterios Raptis
+ * Copyright (C) 2022 Asterios Raptis
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -28,11 +28,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import lombok.NonNull;
 import io.github.astrapi69.design.pattern.observer.event.EventListener;
 import io.github.astrapi69.design.pattern.observer.event.EventObject;
 import io.github.astrapi69.design.pattern.observer.event.EventSource;
 import io.github.astrapi69.design.pattern.observer.event.EventSubject;
+import lombok.NonNull;
 
 /**
  * The {@code GenericEventBus} is a final utility class that provides a centralized event bus
@@ -90,7 +90,7 @@ public final class GenericEventBus
 
 	/**
 	 * Retrieves the event source associated with the specified class type. If it does not exist, a
-	 * new {@code EventSubject} is created and associated with the class type.
+	 * new {@code EventSubject} is created and associated with the class type
 	 *
 	 * @param <T>
 	 *            the type of the event source
@@ -139,6 +139,7 @@ public final class GenericEventBus
 	 * @return an {@code Optional} containing the removed event source, or {@code Optional.empty()}
 	 *         if none existed
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> Optional<EventSource<EventObject<T>>> remove(
 		@NonNull final Class<T> eventSourceTypeClass)
 	{
@@ -153,22 +154,21 @@ public final class GenericEventBus
 	}
 
 	/**
-	 * Post.
+	 * Posts an event to the event bus. The event is dispatched to all registered listeners
+	 * associated with the event's class type
 	 *
 	 * @param <T>
-	 *            the type parameter
+	 *            the type parameter representing the event source
 	 * @param source
-	 *            the source
+	 *            the source event to be posted
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> void post(final T source)
 	{
 		Class<T> eventSourceTypeClass = (Class<T>)source.getClass();
 		if (containsKey(eventSourceTypeClass))
 		{
-			String classSimpleName = eventSourceTypeClass.getSimpleName();
-			EventSource<EventObject<T>> eventSource = (EventSource<EventObject<T>>)eventSources
-				.get(classSimpleName);
-			eventSource.fireEvent(EventObject.of(source));
+			getEventSource(eventSourceTypeClass).fireEvent(EventObject.of(source));
 		}
 	}
 

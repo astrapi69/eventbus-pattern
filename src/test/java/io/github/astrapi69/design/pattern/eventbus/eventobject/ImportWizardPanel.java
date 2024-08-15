@@ -1,7 +1,7 @@
 /**
  * The MIT License
  *
- * Copyright (C) 2015 Asterios Raptis
+ * Copyright (C) 2022 Asterios Raptis
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -24,10 +24,9 @@
  */
 package io.github.astrapi69.design.pattern.eventbus.eventobject;
 
+import io.github.astrapi69.design.pattern.eventbus.ApplicationEventBus;
 import lombok.Getter;
 import lombok.Setter;
-import io.github.astrapi69.design.pattern.eventbus.ApplicationEventBus;
-import io.github.astrapi69.design.pattern.observer.event.EventObject;
 
 /**
  * The class {@link ImportWizardPanel} represents a panel in the import wizard It holds an instance
@@ -55,6 +54,6 @@ public class ImportWizardPanel
 	 */
 	public void fireNewEvent()
 	{
-		ApplicationEventBus.getImportWizardModel().fireEvent(EventObject.of(this.model));
+		ApplicationEventBus.post(this.model);
 	}
 }

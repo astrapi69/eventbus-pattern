@@ -1,7 +1,7 @@
 /**
  * The MIT License
  *
- * Copyright (C) 2015 Asterios Raptis
+ * Copyright (C) 2022 Asterios Raptis
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -24,10 +24,10 @@
  */
 package io.github.astrapi69.design.pattern.eventbus.eventobject;
 
-import lombok.Getter;
 import io.github.astrapi69.design.pattern.eventbus.ApplicationEventBus;
 import io.github.astrapi69.design.pattern.observer.event.EventListener;
 import io.github.astrapi69.design.pattern.observer.event.EventObject;
+import lombok.Getter;
 
 /**
  * The {@code ImportProgressPanel} class is responsible for handling events related to the
