@@ -17,8 +17,14 @@ mockito-core-version = "5.12.0"
 silly-collection-version = "27.1"
 silly-io-version = "3.1"
 throwable-version = "3"
+observer-pattern-version="7.1"
+guava-version = "33.2.1-jre"
+jobj-core-version = "8.2"
 
 [libraries]
+guava = { module = "com.google.guava:guava", version.ref = "guava-version" }
+jobj-core = { module = "io.github.astrapi69:jobj-core", version.ref = "jobj-core-version" }
+observer-pattern = { module = "io.github.astrapi69:observer-pattern", version.ref = "observer-pattern-version" }
 commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text-version" }
 file-worker = { module = "io.github.astrapi69:file-worker", version.ref = "file-worker-version" }
 gradle-migration-data = { module = "io.github.astrapi69:gradle-migration-data", version.ref = "gradle-migration-data-version" }

@@ -5,12 +5,16 @@ dependencies {
     testCompileOnly libs.lombok
     testAnnotationProcessor libs.lombok
 
+    implementation libs.observer.pattern
+
     testImplementation libs.commons.text
     testImplementation libs.file.worker
     testImplementation libs.gradle.migration.data
     testImplementation libs.silly.collection
     testImplementation libs.silly.io
     testImplementation libs.throwable
+    testImplementation libs.guava
+    testImplementation libs.jobj.core
     // Note: use of bundles...
     testImplementation libs.bundles.unit.testing
     testRuntimeOnly libs.junit.platform.launcher
