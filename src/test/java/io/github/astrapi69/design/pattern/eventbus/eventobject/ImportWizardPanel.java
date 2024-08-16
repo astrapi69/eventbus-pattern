@@ -24,10 +24,10 @@
  */
 package io.github.astrapi69.design.pattern.eventbus.eventobject;
 
-import lombok.Getter;
-import lombok.Setter;
 import io.github.astrapi69.design.pattern.eventbus.ApplicationEventBus;
 import io.github.astrapi69.design.pattern.observer.event.EventObject;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * The class {@link ImportWizardPanel} represents a panel in the import wizard It holds an instance

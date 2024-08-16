@@ -24,10 +24,10 @@
  */
 package io.github.astrapi69.design.pattern.eventbus.eventobject;
 
-import lombok.Getter;
 import io.github.astrapi69.design.pattern.eventbus.ApplicationEventBus;
 import io.github.astrapi69.design.pattern.observer.event.EventListener;
 import io.github.astrapi69.design.pattern.observer.event.EventObject;
+import lombok.Getter;
 
 /**
  * The {@code ImportProgressPanel} class is responsible for handling events related to the

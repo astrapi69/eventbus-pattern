@@ -32,6 +32,7 @@ import io.github.astrapi69.design.pattern.observer.event.EventListener;
 import io.github.astrapi69.design.pattern.observer.event.EventObject;
 import io.github.astrapi69.design.pattern.observer.event.EventSource;
 import io.github.astrapi69.design.pattern.observer.event.EventSubject;
+import lombok.Getter;
 import lombok.NonNull;
 
 /**
@@ -40,14 +41,23 @@ import lombok.NonNull;
  * registry of event sources keyed by strings or class types, enabling efficient event dispatching
  * and management.
  */
-public final class GenericEventBus
+public final class BaseEventBus
 {
-	// A static map holding event sources keyed by their string representation
-	private static final Map<String, EventSource<?>> eventSources = new ConcurrentHashMap<>();
+	// A map holding event sources keyed by their string representation
+	private final Map<String, EventSource<?>> eventSources = new ConcurrentHashMap<>();
 
-	// Private constructor to prevent instantiation
-	private GenericEventBus()
+	/**
+	 * The name of this event bus
+	 */
+	@Getter
+	public final String name;
+
+	/**
+	 * Instantiates a new {@code BaseEventBus} object
+	 */
+	private BaseEventBus(String name)
 	{
+		this.name = name;
 	}
 
 	/**
@@ -57,7 +67,7 @@ public final class GenericEventBus
 	 *            the key associated with the event source
 	 * @return the event source associated with the given key, or {@code null} if none is found
 	 */
-	public static EventSource<?> get(final String key)
+	public EventSource<?> get(final String key)
 	{
 		return eventSources.get(key);
 	}
@@ -69,7 +79,7 @@ public final class GenericEventBus
 	 *            the key to check
 	 * @return {@code true} if the event source is present, {@code false} otherwise
 	 */
-	public static boolean containsKey(final String key)
+	public boolean containsKey(final String key)
 	{
 		return eventSources.containsKey(key);
 	}
@@ -83,14 +93,14 @@ public final class GenericEventBus
 	 *            the class type of the event source to check
 	 * @return {@code true} if the event source is present, {@code false} otherwise
 	 */
-	public static <T> boolean containsKey(@NonNull final Class<T> eventSourceTypeClass)
+	public <T> boolean containsKey(@NonNull final Class<T> eventSourceTypeClass)
 	{
-		return eventSources.containsKey(eventSourceTypeClass.getSimpleName());
+		return containsKey(eventSourceTypeClass.getSimpleName());
 	}
 
 	/**
 	 * Retrieves the event source associated with the specified class type. If it does not exist, a
-	 * new {@code EventSubject} is created and associated with the class type
+	 * new {@code EventSubject} is created and associated with the class type.
 	 *
 	 * @param <T>
 	 *            the type of the event source
@@ -99,7 +109,7 @@ public final class GenericEventBus
 	 * @return the event source associated with the specified class type
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> EventSource<EventObject<T>> getEventSource(
+	public <T> EventSource<EventObject<T>> getEventSource(
 		@NonNull final Class<T> eventSourceTypeClass)
 	{
 		if (!containsKey(eventSourceTypeClass))
@@ -121,11 +131,10 @@ public final class GenericEventBus
 	 *            the class type of the event source
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> void register(@NonNull final EventListener<EventObject<T>> listener,
+	public <T> void register(@NonNull final EventListener<EventObject<T>> listener,
 		@NonNull final Class<T> eventSourceTypeClass)
 	{
-		EventSource<EventObject<T>> eventSource = GenericEventBus
-			.getEventSource(eventSourceTypeClass);
+		EventSource<EventObject<T>> eventSource = getEventSource(eventSourceTypeClass);
 		eventSource.add(listener);
 	}
 
@@ -140,7 +149,7 @@ public final class GenericEventBus
 	 *         if none existed
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> Optional<EventSource<EventObject<T>>> remove(
+	public <T> Optional<EventSource<EventObject<T>>> remove(
 		@NonNull final Class<T> eventSourceTypeClass)
 	{
 		if (containsKey(eventSourceTypeClass))
@@ -165,7 +174,7 @@ public final class GenericEventBus
 	 *         exist
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> EventSource<EventObject<T>> get(@NonNull final Class<T> eventSourceTypeClass)
+	public <T> EventSource<EventObject<T>> get(@NonNull final Class<T> eventSourceTypeClass)
 	{
 		if (containsKey(eventSourceTypeClass))
 		{
@@ -187,7 +196,7 @@ public final class GenericEventBus
 	 *            the source event to be posted
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> void post(@NonNull final T source)
+	public <T> void post(@NonNull final T source)
 	{
 		Class<T> eventSourceTypeClass = (Class<T>)source.getClass();
 		if (containsKey(eventSourceTypeClass))
@@ -206,7 +215,7 @@ public final class GenericEventBus
 	 * @return the previous event source associated with the key, or {@code null} if there was no
 	 *         mapping for the key
 	 */
-	private static synchronized EventSource<?> put(final String key, final EventSource<?> value)
+	private synchronized EventSource<?> put(final String key, final EventSource<?> value)
 	{
 		return eventSources.put(key, value);
 	}

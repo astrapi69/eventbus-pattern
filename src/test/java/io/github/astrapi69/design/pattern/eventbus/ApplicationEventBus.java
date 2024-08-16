@@ -24,16 +24,14 @@
  */
 package io.github.astrapi69.design.pattern.eventbus;
 
-import lombok.Getter;
-import lombok.NonNull;
-
 import com.google.common.eventbus.EventBus;
 
 import io.github.astrapi69.design.pattern.eventbus.eventobject.ImportWizardModel;
 import io.github.astrapi69.design.pattern.observer.event.EventListener;
 import io.github.astrapi69.design.pattern.observer.event.EventObject;
 import io.github.astrapi69.design.pattern.observer.event.EventSource;
-import io.github.astrapi69.lang.TypeArgumentsExtensions;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * The class {@link ApplicationEventBus} serves as the central event bus for the application It

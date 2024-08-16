@@ -1,88 +1,81 @@
 package io.github.astrapi69.design.pattern.eventbus.api;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-
-import lombok.NonNull;
-import io.github.astrapi69.design.pattern.observer.event.EventListener;
-import io.github.astrapi69.design.pattern.observer.event.EventObject;
-import io.github.astrapi69.design.pattern.observer.event.EventSource;
-import io.github.astrapi69.design.pattern.observer.event.EventSubject;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * The {@code ApplicationEventBus} is a utility class that provides a centralized event bus
- * mechanism for managing and dispatching events using {@code EventSource} objects.
- * It maintains a registry of event sources keyed by strings or class types, enabling efficient event dispatching and management.
+ * The class {@link ApplicationEventBus} is a simple implementation of the {@link EventBus}
+ * interface. It allows registering and unregistering subscribers, posting events to all registered
+ * subscribers, and retrieving the list of current subscribers.
  *
- * @param <S> the type of the subscriber
- * @param <E> the type of the event
+ * @param <S>
+ *            the type of subscribers that can register to the event bus
+ * @param <E>
+ *            the type of events that can be posted to the event bus
  */
-public class ApplicationEventBus<S, E> implements EventBus<S, E>
+public abstract class ApplicationEventBus<S, E> implements EventBus<S, E>
 {
-	// A map holding event sources keyed by their string representation
-	private final Map<String, EventSource<E>> eventSources = new ConcurrentHashMap<>();
 
+	private final List<S> subscribers;
+
+	/**
+	 * Instantiates a new {@code ApplicationEventBus}.
+	 */
+	public ApplicationEventBus()
+	{
+		this.subscribers = new CopyOnWriteArrayList<>();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void register(S subscriber)
 	{
-		if (subscriber != null && !containsSubscriber(subscriber))
+		if (subscriber != null && !subscribers.contains(subscriber))
 		{
-			EventSource<E> eventSource = getEventSource(subscriber.getClass());
-			eventSource.add((EventListener<E>) subscriber);
-			System.out.println("Registered subscriber: " + subscriber.getClass().getSimpleName());
+			subscribers.add(subscriber);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void unregister(S subscriber)
 	{
-		if (subscriber != null && containsSubscriber(subscriber))
-		{
-			EventSource<E> eventSource = getEventSource(subscriber.getClass());
-			eventSource.remove((EventListener<E>) subscriber);
-			System.out.println("Unregistered subscriber: " + subscriber.getClass().getSimpleName());
-		}
+		subscribers.remove(subscriber);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void post(E event)
 	{
-		String eventTypeName = event.getClass().getSimpleName();
-
-		eventSources.forEach((key, eventSource) -> {
-			if (key.equals(eventTypeName)) {
-				System.out.println("Posting event: " + event + " to source: " + eventSource);
-				eventSource.fireEvent(event);
-			}
-		});
-
-		System.out.println("No event source found for: " + eventTypeName);
-	}
-
-	private boolean containsSubscriber(S subscriber)
-	{
-		return eventSources.containsKey(subscriber.getClass().getSimpleName());
-	}
-
-	private boolean containsEventSource(Class<?> eventSourceTypeClass)
-	{
-		return eventSources.containsKey(eventSourceTypeClass.getSimpleName());
-	}
-
-	@SuppressWarnings("unchecked")
-	private <T> EventSource<E> getEventSource(Class<T> eventSourceTypeClass)
-	{
-		String key = eventSourceTypeClass.getSimpleName();
-		return (EventSource<E>) eventSources.computeIfAbsent(key, k -> new EventSubject<>());
-	}
-
-	public <T> Optional<EventSource<E>> remove(@NonNull final Class<T> eventSourceTypeClass)
-	{
-		if (containsEventSource(eventSourceTypeClass))
+		for (S subscriber : subscribers)
 		{
-			return Optional.ofNullable(eventSources.remove(eventSourceTypeClass.getSimpleName()));
+			onPost(subscriber, event);
 		}
-		return Optional.empty();
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<S> getSubscribers()
+	{
+		return subscribers;
+	}
+
+	/**
+	 * Callback method for the specified event to the given subscriber
+	 * 
+	 * @param event
+	 *            the event to post
+	 * @param subscriber
+	 *            the subscriber that is interested to the given event
+	 */
+	public abstract void onPost(S subscriber, E event);
+
 }
