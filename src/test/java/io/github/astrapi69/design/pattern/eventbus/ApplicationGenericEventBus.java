@@ -26,25 +26,23 @@ package io.github.astrapi69.design.pattern.eventbus;
 
 import com.google.common.eventbus.EventBus;
 
-import io.github.astrapi69.design.pattern.eventbus.eventobject.ImportWizardModel;
 import io.github.astrapi69.design.pattern.observer.event.EventListener;
 import io.github.astrapi69.design.pattern.observer.event.EventObject;
-import io.github.astrapi69.design.pattern.observer.event.EventSource;
 import lombok.Getter;
 import lombok.NonNull;
 
 /**
- * The class {@link ApplicationEventBus} serves as the central event bus for the application It
- * provides access to various event sources, including those related to navigation and the import
+ * The class {@link ApplicationGenericEventBus} serves as the central event bus for the application
+ * It provides access to various event sources, including those related to navigation and the import
  * wizard model, and it uses an instance of {@link EventBus} from the Guava library to manage and
  * dispatch events
  */
-public class ApplicationEventBus
+public class ApplicationGenericEventBus
 {
 
-	/** The singleton instance of the {@link ApplicationEventBus} */
+	/** The singleton instance of the {@link ApplicationGenericEventBus} */
 	@Getter
-	private static final ApplicationEventBus instance = new ApplicationEventBus();
+	private static final ApplicationGenericEventBus instance = new ApplicationGenericEventBus();
 
 	/** The underlying Guava {@link EventBus} for managing events */
 	@Getter
@@ -53,15 +51,44 @@ public class ApplicationEventBus
 	/**
 	 * Private constructor to enforce singleton pattern
 	 */
-	private ApplicationEventBus()
+	private ApplicationGenericEventBus()
 	{
 	}
 
+	/**
+	 * Registers a new {@link EventListener} with the specified event source type class to this
+	 * EventBus instance
+	 *
+	 * @param <T>
+	 *            the type parameter that represents the event source
+	 * @param listener
+	 *            the listener to register
+	 * @param eventSourceTypeClass
+	 *            the class type of the event source
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> void register(@NonNull final EventListener<EventObject<T>> listener,
 		@NonNull final Class<T> eventSourceTypeClass)
 	{
 		GenericEventBus.register(listener, eventSourceTypeClass);
+	}
+
+	/**
+	 * Unregisters the given {@link EventListener} with the specified event source type class from
+	 * this EventBus
+	 *
+	 * @param <T>
+	 *            the type parameter that represents the event source
+	 * @param listener
+	 *            the listener to register
+	 * @param eventSourceTypeClass
+	 *            the class type of the event source
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> void unregister(@NonNull final EventListener<EventObject<T>> listener,
+		@NonNull final Class<T> eventSourceTypeClass)
+	{
+		GenericEventBus.unregister(listener, eventSourceTypeClass);
 	}
 
 	/**
@@ -79,35 +106,4 @@ public class ApplicationEventBus
 		GenericEventBus.post(source);
 	}
 
-	/**
-	 * Retrieves an event source by its key
-	 *
-	 * @param key
-	 *            the key associated with the event source
-	 * @return the event source associated with the given key, or {@code null} if none is found
-	 */
-	public static EventSource<?> get(final String key)
-	{
-		return GenericEventBus.get(key);
-	}
-
-	/**
-	 * Retrieves the event source for navigation state events
-	 *
-	 * @return the event source associated with {@link NavigationEventState} events
-	 */
-	public static EventSource<EventObject<NavigationEventState>> getImportNavigationState()
-	{
-		return GenericEventBus.getEventSource(NavigationEventState.class);
-	}
-
-	/**
-	 * Retrieves the event source for import wizard model events
-	 *
-	 * @return the event source associated with {@link ImportWizardModel} events
-	 */
-	public static EventSource<EventObject<ImportWizardModel>> getImportWizardModel()
-	{
-		return GenericEventBus.getEventSource(ImportWizardModel.class);
-	}
 }

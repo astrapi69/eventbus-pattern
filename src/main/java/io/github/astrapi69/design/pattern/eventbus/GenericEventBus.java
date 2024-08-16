@@ -51,65 +51,6 @@ public final class GenericEventBus
 	}
 
 	/**
-	 * Retrieves the event source associated with the specified key
-	 *
-	 * @param key
-	 *            the key associated with the event source
-	 * @return the event source associated with the given key, or {@code null} if none is found
-	 */
-	public static EventSource<?> get(final String key)
-	{
-		return eventSources.get(key);
-	}
-
-	/**
-	 * Checks if the event bus contains an event source associated with the specified key
-	 *
-	 * @param key
-	 *            the key to check
-	 * @return {@code true} if the event source is present, {@code false} otherwise
-	 */
-	public static boolean containsKey(final String key)
-	{
-		return eventSources.containsKey(key);
-	}
-
-	/**
-	 * Checks if the event bus contains an event source associated with the specified class type
-	 *
-	 * @param <T>
-	 *            the type of the event source
-	 * @param eventSourceTypeClass
-	 *            the class type of the event source to check
-	 * @return {@code true} if the event source is present, {@code false} otherwise
-	 */
-	public static <T> boolean containsKey(@NonNull final Class<T> eventSourceTypeClass)
-	{
-		return containsKey(eventSourceTypeClass.getSimpleName());
-	}
-
-	/**
-	 * Retrieves the event source associated with the specified class type. If it does not exist, a
-	 * new {@code EventSubject} is created and associated with the class type
-	 *
-	 * @param <T>
-	 *            the type of the event source
-	 * @param eventSourceTypeClass
-	 *            the class type of the event source
-	 * @return the event source associated with the specified class type
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> EventSource<EventObject<T>> getEventSource(
-		@NonNull final Class<T> eventSourceTypeClass)
-	{
-		if (!containsKey(eventSourceTypeClass))
-		{
-			put(eventSourceTypeClass.getSimpleName(), new EventSubject<EventObject<T>>());
-		}
-		return (EventSource<EventObject<T>>)get(eventSourceTypeClass.getSimpleName());
-	}
-
-	/**
 	 * Registers a new {@link EventListener} with the specified event source type class to this
 	 * EventBus instance
 	 *
@@ -130,6 +71,104 @@ public final class GenericEventBus
 	}
 
 	/**
+	 * Unregisters the given {@link EventListener} with the specified event source type class from
+	 * this EventBus
+	 *
+	 * @param <T>
+	 *            the type parameter that represents the event source
+	 * @param listener
+	 *            the listener to register
+	 * @param eventSourceTypeClass
+	 *            the class type of the event source
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> void unregister(@NonNull final EventListener<EventObject<T>> listener,
+		@NonNull final Class<T> eventSourceTypeClass)
+	{
+		EventSource<EventObject<T>> eventSource = getEventSource(eventSourceTypeClass);
+		eventSource.remove(listener);
+		remove(eventSourceTypeClass);
+	}
+
+	/**
+	 * Posts an event to the event bus. The event is dispatched to all registered listeners
+	 * associated with the event's class type
+	 *
+	 * @param <T>
+	 *            the type parameter representing the event source
+	 * @param source
+	 *            the source event to be posted
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> void post(@NonNull final T source)
+	{
+		Class<T> eventSourceTypeClass = (Class<T>)source.getClass();
+		if (containsKey(eventSourceTypeClass))
+		{
+			get(eventSourceTypeClass).fireEvent(EventObject.of(source));
+		}
+	}
+
+	/**
+	 * Retrieves the event source associated with the specified key
+	 *
+	 * @param key
+	 *            the key associated with the event source
+	 * @return the event source associated with the given key, or {@code null} if none is found
+	 */
+	private static EventSource<?> get(final String key)
+	{
+		return eventSources.get(key);
+	}
+
+	/**
+	 * Checks if the event bus contains an event source associated with the specified key
+	 *
+	 * @param key
+	 *            the key to check
+	 * @return {@code true} if the event source is present, {@code false} otherwise
+	 */
+	private static boolean containsKey(final String key)
+	{
+		return eventSources.containsKey(key);
+	}
+
+	/**
+	 * Checks if the event bus contains an event source associated with the specified class type
+	 *
+	 * @param <T>
+	 *            the type of the event source
+	 * @param eventSourceTypeClass
+	 *            the class type of the event source to check
+	 * @return {@code true} if the event source is present, {@code false} otherwise
+	 */
+	private static <T> boolean containsKey(@NonNull final Class<T> eventSourceTypeClass)
+	{
+		return containsKey(eventSourceTypeClass.getSimpleName());
+	}
+
+	/**
+	 * Retrieves the event source associated with the specified class type. If it does not exist, a
+	 * new {@code EventSubject} is created and associated with the class type
+	 *
+	 * @param <T>
+	 *            the type of the event source
+	 * @param eventSourceTypeClass
+	 *            the class type of the event source
+	 * @return the event source associated with the specified class type
+	 */
+	@SuppressWarnings("unchecked")
+	private static <T> EventSource<EventObject<T>> getEventSource(
+		@NonNull final Class<T> eventSourceTypeClass)
+	{
+		if (!containsKey(eventSourceTypeClass))
+		{
+			put(eventSourceTypeClass.getSimpleName(), new EventSubject<EventObject<T>>());
+		}
+		return (EventSource<EventObject<T>>)get(eventSourceTypeClass.getSimpleName());
+	}
+
+	/**
 	 * Removes the event source associated with the specified class type
 	 *
 	 * @param <T>
@@ -140,7 +179,7 @@ public final class GenericEventBus
 	 *         if none existed
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> Optional<EventSource<EventObject<T>>> remove(
+	private static <T> Optional<EventSource<EventObject<T>>> remove(
 		@NonNull final Class<T> eventSourceTypeClass)
 	{
 		if (containsKey(eventSourceTypeClass))
@@ -165,7 +204,7 @@ public final class GenericEventBus
 	 *         exist
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> EventSource<EventObject<T>> get(@NonNull final Class<T> eventSourceTypeClass)
+	private static <T> EventSource<EventObject<T>> get(@NonNull final Class<T> eventSourceTypeClass)
 	{
 		if (containsKey(eventSourceTypeClass))
 		{
@@ -175,25 +214,6 @@ public final class GenericEventBus
 			return removedEventSource;
 		}
 		return null;
-	}
-
-	/**
-	 * Posts an event to the event bus. The event is dispatched to all registered listeners
-	 * associated with the event's class type
-	 *
-	 * @param <T>
-	 *            the type parameter representing the event source
-	 * @param source
-	 *            the source event to be posted
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> void post(@NonNull final T source)
-	{
-		Class<T> eventSourceTypeClass = (Class<T>)source.getClass();
-		if (containsKey(eventSourceTypeClass))
-		{
-			get(eventSourceTypeClass).fireEvent(EventObject.of(source));
-		}
 	}
 
 	/**

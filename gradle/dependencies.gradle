@@ -15,6 +15,7 @@ dependencies {
     testImplementation libs.throwable
     testImplementation libs.guava
     testImplementation libs.jobj.core
+    testImplementation libs.state.pattern
     // Note: use of bundles...
     testImplementation libs.bundles.unit.testing
     testRuntimeOnly libs.junit.platform.launcher

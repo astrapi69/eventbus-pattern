@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import io.github.astrapi69.design.pattern.eventbus.eventobject.ImportWizardPanel;
 import io.github.astrapi69.design.pattern.observer.event.EventListener;
 import io.github.astrapi69.design.pattern.observer.event.EventObject;
-import io.github.astrapi69.design.pattern.observer.event.EventSource;
+import io.github.astrapi69.design.pattern.state.wizard.model.NavigationEventState;
 
 /**
  * The class {@link ImportWizardPanelTest} provides unit tests for the {@link ImportWizardPanel}
@@ -77,22 +77,18 @@ public class ImportWizardPanelTest implements EventListener<EventObject<Navigati
 	public void testApplicationEventBus()
 	{
 		// Register as listener...
-		final EventSource<EventObject<NavigationEventState>> eventSource = ApplicationEventBus
-			.getImportNavigationState();
-		eventSource.add(this);
-		// Create an event source object
-		final EventSource<EventObject<NavigationEventState>> navigationEventStateEventSource = ApplicationEventBus
-			.getImportNavigationState();
+		ApplicationGenericEventBus.register(this, NavigationEventState.class);
+
 		// Fire a new event
-		navigationEventStateEventSource.fireEvent(new EventObject<>(NavigationEventState.UPDATE));
+		ApplicationGenericEventBus.post(NavigationEventState.UPDATE);
 		// Verify that the navigationEventState is set to NavigationEventState.UPDATE
 		assertEquals(NavigationEventState.UPDATE, this.navigationEventState);
 		// Fire a new event
-		navigationEventStateEventSource.fireEvent(new EventObject<>(NavigationEventState.VALIDATE));
+		ApplicationGenericEventBus.post(NavigationEventState.VALIDATE);
 		// Verify that the navigationEventState is set to NavigationEventState.VALIDATE
 		assertEquals(NavigationEventState.VALIDATE, this.navigationEventState);
 		// Fire a new event
-		navigationEventStateEventSource.fireEvent(new EventObject<>(NavigationEventState.RESET));
+		ApplicationGenericEventBus.post(NavigationEventState.RESET);
 		// Verify that the navigationEventState is set to NavigationEventState.RESET
 		assertEquals(NavigationEventState.RESET, this.navigationEventState);
 	}

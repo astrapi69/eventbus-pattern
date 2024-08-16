@@ -22,9 +22,9 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.design.pattern.eventbus.eventobject;
+package io.github.astrapi69.design.pattern.eventbus.base;
 
-import io.github.astrapi69.design.pattern.eventbus.ApplicationGenericEventBus;
+import io.github.astrapi69.design.pattern.eventbus.eventobject.ImportWizardModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,11 +49,11 @@ public class ImportWizardPanel
 	}
 
 	/**
-	 * Fires a new event to the {@link ApplicationGenericEventBus} with the current model The event
-	 * is created using the current state of the {@code ImportWizardModel}
+	 * Fires a new event to the {@link ApplicationBaseEventBus} with the current model The event is
+	 * created using the current state of the {@code ImportWizardModel}
 	 */
 	public void fireNewEvent()
 	{
-		ApplicationGenericEventBus.post(this.model);
+		ApplicationBaseEventBus.post(this.model);
 	}
 }

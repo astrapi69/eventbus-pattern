@@ -19,6 +19,7 @@ mockito-core-version = "5.12.0"
 observer-pattern-version = "7.1"
 silly-collection-version = "27.1"
 silly-io-version = "3.1"
+state-pattern-version = "7.1"
 throwable-version = "3"
 
 [libraries]
@@ -37,6 +38,7 @@ mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.
 observer-pattern = { module = "io.github.astrapi69:observer-pattern", version.ref = "observer-pattern-version" }
 silly-collection = { module = "io.github.astrapi69:silly-collection", version.ref = "silly-collection-version" }
 silly-io = { module = "io.github.astrapi69:silly-io", version.ref = "silly-io-version" }
+state-pattern = { module = "io.github.astrapi69:state-pattern", version.ref = "state-pattern-version" }
 throwable = { module = "io.github.astrapi69:throwable", version.ref = "throwable-version" }
 
 [bundles]

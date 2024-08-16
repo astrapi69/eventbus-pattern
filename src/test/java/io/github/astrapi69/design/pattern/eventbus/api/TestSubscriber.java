@@ -22,38 +22,38 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.design.pattern.eventbus.eventobject;
+package io.github.astrapi69.design.pattern.eventbus.api;
 
-import io.github.astrapi69.design.pattern.eventbus.ApplicationGenericEventBus;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The class {@link ImportWizardPanel} represents a panel in the import wizard It holds an instance
- * of {@link ImportWizardModel} and can fire events related to the model
+ * A simple subscriber class used for testing.
+ *
+ * This class collects events that it receives for verification.
  */
-public class ImportWizardPanel
+public class TestSubscriber
 {
-	/** The model associated with this panel */
-	@Getter
-	@Setter
-	ImportWizardModel model;
+	private final List<TestEvent> receivedEvents = new ArrayList<>();
 
 	/**
-	 * Constructs a new {@code ImportWizardPanel} with a default model The default model is
-	 * initialized with a bundle application name "foobar"
+	 * Receives an event and adds it to the list of received events.
+	 *
+	 * @param event
+	 *            the event to receive
 	 */
-	ImportWizardPanel()
+	public void receive(TestEvent event)
 	{
-		this.model = ImportWizardModel.builder().bundleAppName("foobar").build();
+		receivedEvents.add(event);
 	}
 
 	/**
-	 * Fires a new event to the {@link ApplicationGenericEventBus} with the current model The event
-	 * is created using the current state of the {@code ImportWizardModel}
+	 * Retrieves the list of received events.
+	 *
+	 * @return the list of received events
 	 */
-	public void fireNewEvent()
+	public List<TestEvent> getReceivedEvents()
 	{
-		ApplicationGenericEventBus.post(this.model);
+		return receivedEvents;
 	}
 }

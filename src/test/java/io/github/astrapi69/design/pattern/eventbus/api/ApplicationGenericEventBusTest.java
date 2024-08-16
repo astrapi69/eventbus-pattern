@@ -1,13 +1,33 @@
+/**
+ * The MIT License
+ *
+ * Copyright (C) 2022 Asterios Raptis
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 package io.github.astrapi69.design.pattern.eventbus.api;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Unit test for {@link ApplicationEventBus} class.
@@ -31,7 +51,7 @@ import org.junit.jupiter.api.Test;
  * properly dispatched to subscribers and that subscribers can be registered and unregistered as
  * expected.
  */
-class ApplicationEventBusTest
+class ApplicationGenericEventBusTest
 {
 
 	private TestEventBus eventBus;
@@ -112,123 +132,4 @@ class ApplicationEventBusTest
 		assertTrue(eventBus.getSubscribers().isEmpty());
 	}
 
-	/**
-	 * Concrete implementation of {@link ApplicationEventBus} for testing purposes.
-	 */
-	private static class TestEventBus extends ApplicationEventBus<TestSubscriber, TestEvent>
-	{
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void onPost(TestSubscriber subscriber, TestEvent event)
-		{
-			subscriber.receive(event);
-		}
-
-		/**
-		 * Retrieves the current list of subscribers.
-		 *
-		 * @return a list of subscribers
-		 */
-		public List<TestSubscriber> getSubscribers()
-		{
-			return new ArrayList<>(super.getSubscribers());
-		}
-	}
-
-	/**
-	 * A simple subscriber class used for testing.
-	 *
-	 * This class collects events that it receives for verification.
-	 */
-	private static class TestSubscriber
-	{
-		private final List<TestEvent> receivedEvents = new ArrayList<>();
-
-		/**
-		 * Receives an event and adds it to the list of received events.
-		 *
-		 * @param event
-		 *            the event to receive
-		 */
-		public void receive(TestEvent event)
-		{
-			receivedEvents.add(event);
-		}
-
-		/**
-		 * Retrieves the list of received events.
-		 *
-		 * @return the list of received events
-		 */
-		public List<TestEvent> getReceivedEvents()
-		{
-			return receivedEvents;
-		}
-	}
-
-	/**
-	 * A simple event class used for testing.
-	 *
-	 * This class represents an event with a message.
-	 */
-	private static class TestEvent
-	{
-		private final String message;
-
-		/**
-		 * Instantiates a new TestEvent with the given message.
-		 *
-		 * @param message
-		 *            the message of the event
-		 */
-		public TestEvent(String message)
-		{
-			this.message = message;
-		}
-
-		/**
-		 * Gets the message of the event.
-		 *
-		 * @return the message of the event
-		 */
-		public String getMessage()
-		{
-			return message;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean equals(Object o)
-		{
-			if (this == o)
-				return true;
-			if (o == null || getClass() != o.getClass())
-				return false;
-			TestEvent testEvent = (TestEvent)o;
-			return message.equals(testEvent.message);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public int hashCode()
-		{
-			return message.hashCode();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String toString()
-		{
-			return "TestEvent{" + "message='" + message + '\'' + '}';
-		}
-	}
 }

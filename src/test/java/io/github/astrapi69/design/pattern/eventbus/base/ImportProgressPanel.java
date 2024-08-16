@@ -22,9 +22,9 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.design.pattern.eventbus.eventobject;
+package io.github.astrapi69.design.pattern.eventbus.base;
 
-import io.github.astrapi69.design.pattern.eventbus.ApplicationGenericEventBus;
+import io.github.astrapi69.design.pattern.eventbus.eventobject.ImportWizardModel;
 import io.github.astrapi69.design.pattern.observer.event.EventListener;
 import io.github.astrapi69.design.pattern.observer.event.EventObject;
 import lombok.Getter;
@@ -48,7 +48,7 @@ public class ImportProgressPanel implements EventListener<EventObject<ImportWiza
 	ImportProgressPanel()
 	{
 		// Register as listener...
-		ApplicationGenericEventBus.register(this, ImportWizardModel.class);
+		ApplicationBaseEventBus.register(this, ImportWizardModel.class);
 	}
 
 	/**

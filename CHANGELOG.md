@@ -8,6 +8,11 @@ ADDED:
 
 - new interface EventBus
 - new class BaseEventBus
+- new test dependency state-pattern 
+
+CHANGED:
+
+- remove of test class NavigationEventState
 
 Version 7
 -------------

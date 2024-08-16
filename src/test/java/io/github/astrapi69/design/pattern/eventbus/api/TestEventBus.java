@@ -22,27 +22,33 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.design.pattern.eventbus;
+package io.github.astrapi69.design.pattern.eventbus.api;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The enum {@link NavigationEventState} represents different states of navigation events that can
- * occur in a wizard navigation process
+ * Concrete implementation of {@link ApplicationEventBus} for testing purposes.
  */
-public enum NavigationEventState
+public class TestEventBus extends ApplicationEventBus<TestSubscriber, TestEvent>
 {
 
 	/**
-	 * The RESET state indicates that the navigation should reset to its initial state
+	 * {@inheritDoc}
 	 */
-	RESET,
+	@Override
+	public void onPost(TestSubscriber subscriber, TestEvent event)
+	{
+		subscriber.receive(event);
+	}
 
 	/**
-	 * The UPDATE state indicates that the navigation should update its current state
+	 * Retrieves the current list of subscribers.
+	 *
+	 * @return a list of subscribers
 	 */
-	UPDATE,
-
-	/**
-	 * The VALIDATE state indicates that the navigation should validate its current state
-	 */
-	VALIDATE
+	public List<TestSubscriber> getSubscribers()
+	{
+		return new ArrayList<>(super.getSubscribers());
+	}
 }

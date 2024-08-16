@@ -22,38 +22,67 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.design.pattern.eventbus.eventobject;
-
-import io.github.astrapi69.design.pattern.eventbus.ApplicationGenericEventBus;
-import lombok.Getter;
-import lombok.Setter;
+package io.github.astrapi69.design.pattern.eventbus.api;
 
 /**
- * The class {@link ImportWizardPanel} represents a panel in the import wizard It holds an instance
- * of {@link ImportWizardModel} and can fire events related to the model
+ * A simple event class used for testing.
+ *
+ * This class represents an event with a message.
  */
-public class ImportWizardPanel
+public class TestEvent
 {
-	/** The model associated with this panel */
-	@Getter
-	@Setter
-	ImportWizardModel model;
+	private final String message;
 
 	/**
-	 * Constructs a new {@code ImportWizardPanel} with a default model The default model is
-	 * initialized with a bundle application name "foobar"
+	 * Instantiates a new TestEvent with the given message.
+	 *
+	 * @param message
+	 *            the message of the event
 	 */
-	ImportWizardPanel()
+	public TestEvent(String message)
 	{
-		this.model = ImportWizardModel.builder().bundleAppName("foobar").build();
+		this.message = message;
 	}
 
 	/**
-	 * Fires a new event to the {@link ApplicationGenericEventBus} with the current model The event
-	 * is created using the current state of the {@code ImportWizardModel}
+	 * Gets the message of the event.
+	 *
+	 * @return the message of the event
 	 */
-	public void fireNewEvent()
+	public String getMessage()
 	{
-		ApplicationGenericEventBus.post(this.model);
+		return message;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		TestEvent testEvent = (TestEvent)o;
+		return message.equals(testEvent.message);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode()
+	{
+		return message.hashCode();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString()
+	{
+		return "TestEvent{" + "message='" + message + '\'' + '}';
 	}
 }

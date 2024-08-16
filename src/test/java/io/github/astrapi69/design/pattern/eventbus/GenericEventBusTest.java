@@ -31,11 +31,13 @@ import org.junit.jupiter.api.Test;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
+import io.github.astrapi69.design.pattern.state.wizard.model.NavigationEventState;
+
 /**
  * The class {@link GenericEventBusTest} provides unit tests for the integration of the
- * {@link GenericEventBus} with the {@link ApplicationEventBus} using the Guava {@link EventBus} The
- * tests verify the registration, event posting, and unregistration of event listeners, ensuring
- * correct behavior of the event bus system
+ * {@link GenericEventBus} with the {@link ApplicationGenericEventBus} using the Guava
+ * {@link EventBus} The tests verify the registration, event posting, and unregistration of event
+ * listeners, ensuring correct behavior of the event bus system
  */
 public class GenericEventBusTest
 {
@@ -46,16 +48,16 @@ public class GenericEventBusTest
 	private static NavigationEventState navigationEventState;
 
 	/**
-	 * Test method for verifying the functionality of the {@link ApplicationEventBus} using the
-	 * Guava {@link EventBus} It checks the correct registration and unregistration of listeners,
-	 * the proper handling of different types of events, and the integrity of event-driven state
-	 * changes
+	 * Test method for verifying the functionality of the {@link ApplicationGenericEventBus} using
+	 * the Guava {@link EventBus} It checks the correct registration and unregistration of
+	 * listeners, the proper handling of different types of events, and the integrity of
+	 * event-driven state changes
 	 */
 	@Test
 	public void testApplicationEventBus()
 	{
 		// ApplicationEventBus from guava
-		EventBus guavaEventBus = ApplicationEventBus.getInstance().getApplicationEventBus();
+		EventBus guavaEventBus = ApplicationGenericEventBus.getInstance().getApplicationEventBus();
 		// Register this instance as listener
 		guavaEventBus.register(this);
 		// Post an event

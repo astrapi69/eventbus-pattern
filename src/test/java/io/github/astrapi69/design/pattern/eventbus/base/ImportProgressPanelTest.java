@@ -22,7 +22,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.design.pattern.eventbus.eventobject;
+package io.github.astrapi69.design.pattern.eventbus.base;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-import io.github.astrapi69.design.pattern.eventbus.ApplicationGenericEventBus;
+import io.github.astrapi69.design.pattern.eventbus.eventobject.ImportWizardModel;
 
 /**
  * The class {@link ImportProgressPanelTest} provides unit tests for the {@link ImportProgressPanel}
@@ -43,7 +43,7 @@ public class ImportProgressPanelTest
 
 	/**
 	 * Test method for the interaction between {@link ImportProgressPanel} and
-	 * {@link ImportWizardPanel} through the {@link ApplicationGenericEventBus} It validates that
+	 * {@link ImportWizardPanel} through the {@link ApplicationBaseEventBus} It validates that
 	 * events are correctly fired, received, and processed, ensuring that the model state is
 	 * synchronized across the panels
 	 */
