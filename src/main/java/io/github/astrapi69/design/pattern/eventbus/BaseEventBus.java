@@ -54,6 +54,9 @@ public final class BaseEventBus
 
 	/**
 	 * Instantiates a new {@code BaseEventBus} object
+	 * 
+	 * @param name
+	 *            the name of this event bus
 	 */
 	public BaseEventBus(String name)
 	{
