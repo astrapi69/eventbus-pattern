@@ -100,7 +100,7 @@ public final class BaseEventBus
 
 	/**
 	 * Retrieves the event source associated with the specified class type. If it does not exist, a
-	 * new {@code EventSubject} is created and associated with the class type.
+	 * new {@code EventSubject} is created and associated with the class type
 	 *
 	 * @param <T>
 	 *            the type of the event source

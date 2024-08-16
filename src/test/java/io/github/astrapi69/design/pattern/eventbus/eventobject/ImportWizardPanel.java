@@ -25,7 +25,6 @@
 package io.github.astrapi69.design.pattern.eventbus.eventobject;
 
 import io.github.astrapi69.design.pattern.eventbus.ApplicationEventBus;
-import io.github.astrapi69.design.pattern.observer.event.EventObject;
 import lombok.Getter;
 import lombok.Setter;
 

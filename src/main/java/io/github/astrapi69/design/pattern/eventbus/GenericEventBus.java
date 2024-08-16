@@ -85,7 +85,7 @@ public final class GenericEventBus
 	 */
 	public static <T> boolean containsKey(@NonNull final Class<T> eventSourceTypeClass)
 	{
-		return eventSources.containsKey(eventSourceTypeClass.getSimpleName());
+		return containsKey(eventSourceTypeClass.getSimpleName());
 	}
 
 	/**

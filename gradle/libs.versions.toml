@@ -8,26 +8,25 @@ gradle-plugin-lombok-version = "8.7.1"
 gradle-plugin-spotless-version = "7.0.0.BETA1"
 gradle-plugin-version-catalog-update-version = "0.8.4"
 gradle-plugin-versions-version = "0.51.0"
+guava-version = "33.2.1-jre"
+jobj-core-version = "8.2"
 junit-jupiter-params-version = "5.11.0"
 junit-jupiter-version = "5.11.0"
 junit-platform-launcher-version = "1.11.0"
 lombok-version = "1.18.34"
 meanbean-version = "3.0.0-M9"
 mockito-core-version = "5.12.0"
+observer-pattern-version = "7.1"
 silly-collection-version = "27.1"
 silly-io-version = "3.1"
 throwable-version = "3"
-observer-pattern-version="7.1"
-guava-version = "33.2.1-jre"
-jobj-core-version = "8.2"
 
 [libraries]
-guava = { module = "com.google.guava:guava", version.ref = "guava-version" }
-jobj-core = { module = "io.github.astrapi69:jobj-core", version.ref = "jobj-core-version" }
-observer-pattern = { module = "io.github.astrapi69:observer-pattern", version.ref = "observer-pattern-version" }
 commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text-version" }
 file-worker = { module = "io.github.astrapi69:file-worker", version.ref = "file-worker-version" }
 gradle-migration-data = { module = "io.github.astrapi69:gradle-migration-data", version.ref = "gradle-migration-data-version" }
+guava = { module = "com.google.guava:guava", version.ref = "guava-version" }
+jobj-core = { module = "io.github.astrapi69:jobj-core", version.ref = "jobj-core-version" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter-version" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-jupiter-params-version" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform-launcher-version" }
@@ -35,6 +34,7 @@ lombok = { module = "org.projectlombok:lombok", version.ref = "lombok-version" }
 meanbean = { module = "com.github.meanbeanlib:meanbean", version.ref = "meanbean-version" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core-version" }
 mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito-core-version" }
+observer-pattern = { module = "io.github.astrapi69:observer-pattern", version.ref = "observer-pattern-version" }
 silly-collection = { module = "io.github.astrapi69:silly-collection", version.ref = "silly-collection-version" }
 silly-io = { module = "io.github.astrapi69:silly-io", version.ref = "silly-io-version" }
 throwable = { module = "io.github.astrapi69:throwable", version.ref = "throwable-version" }

@@ -4,6 +4,10 @@
 Version 7-1-SNAPSHOT
 -------------
 
+ADDED:
+
+- new interface EventBus
+- new class BaseEventBus
 
 Version 7
 -------------
