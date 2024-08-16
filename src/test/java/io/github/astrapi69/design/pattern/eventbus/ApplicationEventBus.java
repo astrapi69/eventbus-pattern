@@ -1,7 +1,7 @@
 /**
  * The MIT License
  *
- * Copyright (C) 2015 Asterios Raptis
+ * Copyright (C) 2022 Asterios Raptis
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -64,26 +64,20 @@ public class ApplicationEventBus
 		GenericEventBus.register(listener, eventSourceTypeClass);
 	}
 
-
-	public static Class<?> getBaseClass(final Class<?> childClass)
+	/**
+	 * Posts an event to the event bus. The event is dispatched to all registered listeners
+	 * associated with the event's class type
+	 *
+	 * @param <T>
+	 *            the type parameter representing the event source
+	 * @param source
+	 *            the source event to be posted
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> void post(final T source)
 	{
-		if (childClass == null || childClass.equals(Object.class))
-		{
-			return childClass;
-		}
-		Class<?> superClass = childClass.getSuperclass();
-		if (superClass != null && superClass.equals(Object.class))
-		{
-			return childClass;
-		}
-		while (superClass != null && !(superClass.getSuperclass() != null
-			&& superClass.getSuperclass().equals(Object.class)))
-		{
-			superClass = superClass.getSuperclass();
-		}
-		return superClass;
+		GenericEventBus.post(source);
 	}
-
 
 	/**
 	 * Retrieves an event source by its key
